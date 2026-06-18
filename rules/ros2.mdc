@@ -1,0 +1,30 @@
+---
+description: ROS2-specific conventions - colcon build/launch tooling, topic/service/action naming, QoS, parameters, and node design.
+globs: ["**/package.xml", "**/CMakeLists.txt", "**/setup.py", "**/*.launch.py", "**/launch/**/*.py", "**/*.launch.xml", "**/*.msg", "**/*.srv", "**/*.action"]
+alwaysApply: false
+---
+
+# ROS2
+
+ROS2 tooling and patterns. For framework-agnostic robotics guidance (frames, control, safety), see `robotics.mdc`.
+
+## Build and run
+- Build with `colcon build`, source the overlay (`source install/setup.bash`), and launch via `ros2 launch <pkg> <file>.launch.py`.
+- Keep `package.xml` dependencies accurate; declare build vs exec deps correctly.
+
+## Topics, services, actions
+- Name interfaces by purpose within a namespace (e.g. `/arm/joint_states`, `/nav/cmd_vel`). Reuse standard `*_msgs` types instead of inventing new ones.
+- Use services for request/response, actions for long-running goals with feedback/cancel, topics for streaming.
+
+## QoS
+- Match QoS profiles to the data: sensor streams use best-effort/volatile; commands and latched state use reliable/transient-local. Mismatched QoS silently drops messages.
+
+## Parameters
+- Declare parameters with defaults and load them from YAML config; never hardcode tunables. Support runtime reconfiguration where it matters.
+
+## Node design
+- Prefer lifecycle nodes for managed startup/shutdown. Use callback groups and a multi-threaded executor to isolate real-time callbacks from slow work.
+- Keep callbacks short and non-blocking; offload heavy work off the executor thread.
+
+## Testing
+- Use `launch_testing` + `colcon test`; verify with `colcon test-result --verbose`. Record `ros2 bag` during integration tests for telemetry inspection.

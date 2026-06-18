@@ -1,0 +1,29 @@
+---
+description: Conventions for Drizzle ORM with PostgreSQL - query builder usage, safe parameterization, and migration workflow.
+globs: ["**/schema*.ts", "**/db/**/*.ts", "**/drizzle/**/*.ts", "**/drizzle.config.*"]
+alwaysApply: false
+---
+
+# Drizzle + PostgreSQL
+
+## Query building
+- Use Drizzle's query builder, not raw SQL strings. If raw SQL is unavoidable, use the `sql` template tag with parameters - never string interpolation of user input.
+
+```ts
+// Good
+const rows = await db.select().from(users).where(eq(users.id, id));
+
+// Bad - SQL injection risk
+await db.execute(`SELECT * FROM users WHERE id = '${id}'`);
+```
+
+## Migrations
+- Generate migrations with `drizzle-kit generate` from schema changes; review the generated SQL before applying.
+- Apply with `drizzle-kit migrate` (or the project's migrate script). Never hand-edit applied migrations.
+- Treat destructive migrations (drop column/table, type narrowing) as risky: confirm intent and back up before applying.
+
+## Types
+- Derive types from the schema (`InferSelectModel` / `InferInsertModel`); do not hand-maintain parallel types.
+
+## Safety
+- All external input must be parameterized. Wrap multi-statement writes in a transaction (`db.transaction`).

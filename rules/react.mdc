@@ -1,0 +1,57 @@
+---
+description: React web app conventions - TypeScript, shadcn/ui, TanStack Query, Zustand, React Hook Form, TailwindCSS, Vite, React Router. For scalable, accessible, maintainable apps. (Expo/React Native: see expo.mdc.)
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React (web)
+
+Senior React engineering for a Vite + React Router SPA. Be direct and concise; simplicity first; respect the design system. Do not add code comments unless asked.
+
+## Stack
+React 18+ (hooks, functional components), TypeScript, TailwindCSS, shadcn/ui (Radix primitives), Vite, React Router, TanStack Query (server state), Zustand (client state), React Hook Form (forms).
+
+## File and code conventions
+- File names: kebab-case (`user-profile.tsx`). `*.tsx` = components; `*.ts` = utils/types/config.
+- Named exports for utilities; default export for a file's main component.
+- Import order: 1) React, 2) third-party, 3) internal utils/types, 4) relative.
+- Single quotes, 2-space indent, no trailing whitespace, `const` for immutables, template strings, optional chaining + nullish coalescing.
+
+## Components and patterns
+- Functional components with hooks; extract reusable logic into custom hooks.
+- Composition over inheritance; compound components for complex UI; render-props/children-as-function and HOCs only when they earn their keep.
+- Feature-based structure, single responsibility, avoid prop drilling. Error boundaries for component errors; Suspense for loading.
+- Subtle micro-interactions; animations enhance UX, never distract.
+
+## TypeScript
+- Interfaces for props and data; generics for reusable components; union types for variants; utility types (Pick/Omit/Partial). Never `any`. Strict mode on.
+
+## State management
+- Local: `useState`/`useReducer`. Global: Zustand (preferred) over Context. Server: TanStack Query. Forms: React Hook Form. URL: React Router.
+
+## shadcn/ui
+- Primary component library. Copy components from the registry (do not install as a package) and customize the copied code. Follow Radix patterns for a11y; style with Tailwind; extend via new variants/props.
+
+## TanStack Query
+- All server state lives here. Query keys are hierarchical arrays (`['user', id]`). Invalidate to update cache; optimistic updates via `useMutation`; infinite queries for pagination; prefetch for UX. Always handle loading/error states. Configure defaults on the query client.
+
+## Zustand
+- Domain store slices; `immer` for complex updates; selectors for computed values; `subscribeWithSelector` for fine-grained subscriptions; `persist` middleware where needed; devtools in development.
+
+## Performance
+- `React.memo` for expensive components; `useMemo`/`useCallback` where they measurably help. Code-split with `React.lazy` + Suspense; virtualize large lists; lazy-load and prioritize above-the-fold images.
+
+## Accessibility (WCAG 2.1 AA)
+- Semantic HTML, ARIA only when needed, full keyboard navigation, screen-reader support. Verify with tooling (e.g. jest-axe).
+
+## Errors and loading
+- Error boundaries + try/catch for async; custom error classes; log with context; user-friendly messages (no internals); fallback UI; retry + network/offline handling; field-level validation messages.
+- Skeleton screens and stale-while-revalidate for perceived speed; loading/disabled states in forms and buttons; optimistic updates.
+
+## Security
+- Validate input client and server; sanitize to prevent XSS; HTTPS only; CSRF protection on forms; validate file uploads (type/size/content); secrets via env vars (never in client code); CSP headers; secure cookie flags.
+
+## Testing
+- Unit tests (Vitest) for utils and hooks; component tests with React Testing Library; integration tests for user flows; E2E with Cypress/Playwright; a11y tests with jest-axe.
+
+Reference React official docs and modern patterns for anything not covered here.

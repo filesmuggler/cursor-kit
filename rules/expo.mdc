@@ -1,0 +1,65 @@
+---
+description: Expo / React Native + TypeScript conventions - functional/declarative patterns, Expo managed workflow, navigation, safe areas, performance, i18n, security, and testing. (Web React: see react.mdc.)
+globs: ["app/**/*.{ts,tsx}", "**/*.native.{ts,tsx}", "**/app.json", "**/app.config.{ts,js}", "**/eas.json"]
+alwaysApply: false
+---
+
+# Expo / React Native
+
+Expert TypeScript + React Native + Expo, mobile UI. Follow Expo's official docs (https://docs.expo.dev/) and managed workflow.
+
+## Code style and structure
+- Concise, technical TypeScript with accurate examples. Functional and declarative patterns; avoid classes.
+- Prefer iteration and modularization over duplication.
+- Descriptive names with auxiliary verbs (`isLoading`, `hasError`).
+- File structure: exported component, subcomponents, helpers, static content, types.
+
+## Naming
+- Directories: lowercase-with-dashes (`components/auth-wizard`). Favor named exports for components.
+
+## TypeScript
+- TypeScript everywhere; prefer `interface` over `type`. Avoid enums - use maps. Functional components with TypeScript interfaces. Strict mode on.
+
+## Syntax and formatting
+- Use the `function` keyword for pure functions. Avoid unnecessary curly braces in conditionals; concise syntax for simple statements. Declarative JSX. Prettier for formatting.
+
+## UI and styling
+- Use Expo's built-in components for common patterns/layouts. Responsive design via Flexbox and `useWindowDimensions`.
+- Style with styled-components or Tailwind (NativeWind). Dark mode via `useColorScheme`.
+- High a11y: ARIA roles and native accessibility props. Use `react-native-reanimated` and `react-native-gesture-handler` for performant animations/gestures.
+
+## Safe area
+- Use `SafeAreaProvider` from `react-native-safe-area-context` globally. Wrap top-level components in `SafeAreaView`; use safe-area-aware scroll views for scrollable content. Never hardcode safe-area padding/margins - rely on `SafeAreaView` and context hooks.
+
+## Performance
+- Minimize `useState`/`useEffect`; prefer context and reducers. Use `AppLoading`/`SplashScreen` for optimized startup.
+- Optimize images: WebP where supported, include size data, lazy-load with `expo-image`. Code-split/lazy-load non-critical components via Suspense + dynamic imports.
+- Profile with RN built-in tools and Expo debugging. Avoid unnecessary re-renders; memoize with `useMemo`/`useCallback`.
+
+## Navigation
+- Use `react-navigation` (stack/tab/drawer) per its best practices. Leverage deep linking and universal links. Use dynamic routes with `expo-router`.
+
+## State management
+- React Context + `useReducer` for global state. `react-query` for data fetching/caching (avoid excessive API calls). For complex state, consider Zustand or Redux Toolkit. Handle URL search params via `expo-linking`.
+
+## Error handling and validation
+- Use Zod for runtime validation. Log with Sentry or similar; use `expo-error-reporter` in production.
+- Handle errors at the start of functions with early returns; avoid deep nesting and unnecessary `else` (if-return pattern). Implement global error boundaries.
+
+## Testing
+- Unit tests with Jest + React Native Testing Library. Integration tests for critical flows with Detox. Use Expo's testing tools across environments. Snapshot tests for UI consistency.
+
+## Security
+- Sanitize user inputs (prevent XSS). Use `react-native-encrypted-storage` for sensitive data. HTTPS + proper auth for APIs. Follow Expo's security guidelines (https://docs.expo.dev/guides/security/).
+
+## Internationalization
+- Use `react-native-i18n` or `expo-localization`. Support multiple languages and RTL. Ensure text scaling and font adjustments for accessibility.
+
+## Key conventions
+1. Rely on Expo's managed workflow for development and deployment.
+2. Prioritize Mobile Web Vitals (load time, jank, responsiveness).
+3. Manage env vars/config with `expo-constants`.
+4. Handle device permissions gracefully with `expo-permissions`.
+5. Implement `expo-updates` for OTA updates.
+6. Follow Expo's deployment/publishing best practices (https://docs.expo.dev/distribution/introduction/).
+7. Test extensively on both iOS and Android.

@@ -1,0 +1,29 @@
+---
+description: Conventions for ML and VLA research code - frameworks, training entrypoints, project layout, and reproducibility.
+globs: **/*.py
+alwaysApply: false
+---
+
+# ML / VLA Research
+
+## Frameworks
+- Declare and use the project's framework (PyTorch, JAX, or NeMo); do not mix paradigms within a module.
+
+## Entrypoints and config
+- Training runs via a config-driven entrypoint: `python train.py --config configs/<name>.yaml`. Do not hardcode hyperparameters in code; read them from config.
+- Keep eval and sweep entrypoints separate (`eval.py`, sweep configs).
+
+## Project layout
+- `data/` datasets and preprocessing, `models/` architectures, `configs/` experiment configs, `checkpoints/` model weights, `logs/` experiment/run logs.
+
+## Reproducibility
+- Set and log all seeds (Python, NumPy, framework). Enable deterministic algorithms where feasible.
+- Log the full config, git commit, and environment for every run.
+
+```python
+torch.manual_seed(seed); np.random.seed(seed); random.seed(seed)
+torch.use_deterministic_algorithms(True)
+```
+
+## VLA data
+- Validate tensor shapes and dtypes at dataset boundaries; assert format consistency on sampled batches before training.

@@ -1,0 +1,32 @@
+---
+description: Core operating doctrine for all agentic work - research first, verify before done, review, retro, and layered security.
+alwaysApply: true
+---
+
+# Operating Doctrine
+
+Apply these to every task, regardless of domain.
+
+## Research first
+- Before implementing, inspect existing code: components, utilities, hooks, data-fetching patterns, configs, and tests. Reuse over rebuild.
+- For large or ambiguous tasks, produce a short plan (scope, files to touch, tests) before writing code.
+
+## Verify before claiming done
+- Never report success without running it. Run typecheck, lint, and the relevant tests; fix and re-run until green.
+- Add or update tests for the behavior you changed.
+
+## Review every change
+- After generating code, do a focused review pass: correctness, edge cases, security, and style. Flag issues with severity (critical / suggestion / nice-to-have).
+- Keep diffs small and reviewable; stop and reassess if a change is drifting from intent.
+
+## Iterate and improve the kit
+- Start simple; add or refine rules and skills only when a repeated pattern or mistake emerges. Avoid over-engineering early.
+- After a significant session, run a retro and propose concrete edits to these rules and skills.
+
+## Security posture
+- Layered security: combine LLM review with deterministic SAST tools and human oversight; never rely on one alone.
+- Treat skills, hooks, and MCP servers as managed dependencies - know their source and trust level.
+- Never commit secrets. Parameterize inputs. Validate and sanitize external data.
+
+## Human oversight
+- Surface risky or irreversible actions (migrations, deletes, deploys, force-push) for confirmation rather than proceeding silently.

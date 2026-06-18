@@ -1,0 +1,33 @@
+---
+description: General robotics engineering and research conventions - modeling, frames/units, state estimation and control, safety, simulation-first, and reproducible experiments. Framework-agnostic (see ros2.mdc for ROS2-specific rules).
+alwaysApply: false
+---
+
+# Robotics (engineering and research)
+
+Framework-agnostic robotics practice. For ROS2 tooling specifics, see `ros2.mdc`.
+
+## Modeling, frames, and units
+- Use SI units everywhere; state units in names/docs. Convert at boundaries, not mid-computation.
+- Right-handed coordinate frames; label every pose/twist with its reference frame and apply transforms explicitly. Never compare quantities across frames without transforming.
+- Keep kinematic/dynamic parameters (link lengths, masses, inertias) in config, not hardcoded.
+
+## Sensors and actuators
+- Model sensor noise, range, and update rate; calibrate and timestamp every measurement. Account for latency and clock sync.
+- Respect actuator limits (position, velocity, torque/effort); saturate commands and document the limits.
+
+## State estimation and control
+- Choose estimators deliberately (e.g. EKF/UKF/complementary) and justify the noise model. Validate against ground truth in sim.
+- Specify control-loop rate and a latency budget; analyze stability and keep real-time paths free of blocking I/O and dynamic allocation.
+
+## Safety
+- Every actuator command path needs bounds checks, an estop/abort, a watchdog, and a safe default on signal loss or timeout.
+- Validate sensor input before acting; reject stale or out-of-range data.
+
+## Embedded firmware
+- For microcontroller targets (e.g. MicroPython), build/flash with PlatformIO (`pio run`, `pio run -t upload`). State the hardware target explicitly.
+
+## Simulation-first and research practice
+- Validate behavior in simulation (Gazebo/Ignition, Isaac, MuJoCo) before hardware.
+- Research-first: inspect existing packages, parameter files, and prior results before designing.
+- Reproducibility: fix and log seeds, record configs and datasets/bags, benchmark against baselines, and report metrics (success rate, tracking error, time-to-goal).
