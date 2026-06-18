@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "drizzle-docs": {
+      "type": "sse",
+      "url": "https://drizzle.mastra.cloud/api/mcp/drizzle-docs-mcp/sse"
+    }
+  }
+}

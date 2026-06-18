@@ -1,10 +1,16 @@
 ---
-description: Conventions for Drizzle ORM with PostgreSQL - query builder usage, safe parameterization, and migration workflow.
+description: Conventions for Drizzle ORM with PostgreSQL - query builder usage, safe parameterization, migration workflow, and consulting the drizzle-docs MCP for current docs.
 globs: ["**/schema*.ts", "**/db/**/*.ts", "**/drizzle/**/*.ts", "**/drizzle.config.*"]
 alwaysApply: false
 ---
 
 # Drizzle + PostgreSQL
+
+## Authoritative docs (drizzle-docs MCP)
+- Verify Drizzle APIs and patterns against current docs via the `drizzle-docs` MCP server instead of relying on memory; Drizzle's API evolves.
+- Tools: `search_docs` (fuzzy search; prefer specific queries like "relational queries", not "queries"), `fetch_page` (full page or specific sections in Markdown), `list_topics` (browse the ~97 doc pages).
+- Use it for relational queries (RQB), Drizzle Kit migrations/introspection, validation integration (`drizzle-zod`), and serverless/edge drivers (Neon, Turso, PlanetScale, Cloudflare D1).
+- Source: https://github.com/Michael-Obele/drizzle-docs
 
 ## Query building
 - Use Drizzle's query builder, not raw SQL strings. If raw SQL is unavoidable, use the `sql` template tag with parameters - never string interpolation of user input.
