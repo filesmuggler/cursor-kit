@@ -1,0 +1,24 @@
+{
+  "name": "agentic-kit",
+  "version": "0.1.0",
+  "description": "Global rules, skills, and slash-command prompts for disciplined agentic workflows across React/Expo/Next.js, Drizzle/Postgres, ML & VLA research, model deployment, and robotics.",
+  "author": {
+    "name": "filesmuggler"
+  },
+  "keywords": [
+    "rules",
+    "skills",
+    "commands",
+    "planning",
+    "verification",
+    "review",
+    "react",
+    "nextjs",
+    "expo",
+    "drizzle",
+    "postgres",
+    "machine-learning",
+    "robotics"
+  ],
+  "license": "MIT"
+}
